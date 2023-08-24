@@ -1,5 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { addContact } from './action';
+// import { devToolsEnhancer } from '@reduxjs/toolkit/dist/devtoolsExtension';
+
 const contactsInitials = [
   { id: 1, contacts: 'Arek', filter: 'filtr' },
   { id: 2, contacts: 'Kuba', filter: 'filtr' },
