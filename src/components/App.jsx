@@ -1,4 +1,5 @@
 import { ContactForm } from './ContactForm/ContactForm';
+import { ContactList } from './ContactList/ContactList';
 
 export const App = () => {
   return (
@@ -13,6 +14,7 @@ export const App = () => {
       }}
     >
       <ContactForm />
+      <ContactList />
     </div>
   );
 };

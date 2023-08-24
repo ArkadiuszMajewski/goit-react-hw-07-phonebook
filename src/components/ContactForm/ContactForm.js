@@ -13,7 +13,7 @@ export const ContactForm = () => {
   };
 
   const handleChange = event => {
-    switch (event.target.id) {
+    switch (event.target.name) {
       case 'name':
         setName(event.target.value);
         // console.log(name);
