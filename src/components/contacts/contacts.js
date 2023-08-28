@@ -1,21 +1,19 @@
+import { deleteContact } from 'Redux/contactsSlice';
 import { useDispatch } from 'react-redux';
-import { deleteContact, tooggleFavorite } from '../../redux/action';
+import css from './contacts.module.css';
 
-export const Contact = ({ contact }) => {
+const Contact = ({ contact }) => {
   const dispatch = useDispatch();
   const handleDelete = () => dispatch(deleteContact(contact.id));
-  const handleToggle = () => dispatch(tooggleFavorite(contact.id));
-
   return (
-    <div>
-      <input
-        type="checkbox"
-        checked={contact.favorite}
-        onChange={handleToggle}
-      />
-      <p>{contact.name}</p>
-      <p>{contact.number}</p>
-      <button onClick={handleDelete}>Remove</button>
+    <div className={css.container}>
+      <p>Name: {contact.name}</p>
+      <p>Number: {contact.number}</p>
+      <button type="button" onClick={handleDelete}>
+        Delete
+      </button>
     </div>
   );
 };
+
+export default Contact;

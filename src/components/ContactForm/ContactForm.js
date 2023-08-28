@@ -1,52 +1,68 @@
+import css from './ContactForm.module.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContact } from 'Redux/contactsSlice';
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { addContact } from '../../redux/action';
+import { getContacts } from '../../Redux/selector';
 
-export const ContactForm = () => {
+const ContactForm = () => {
+  const [name, setName] = useState('');
+  const [number, setNumber] = useState('');
+
   const dispatch = useDispatch();
+  const contacts = useSelector(getContacts);
 
-  // const reset = {
-  //   name: "",
-  //   number: ""
-  // };
+  const handleChange = event => {
+    if (event.currentTarget.id === '1') {
+      setName(event.currentTarget.value);
+    }
+    if (event.currentTarget.id === '2') {
+      setNumber(event.currentTarget.value);
+    }
+  };
 
-  const [contact, setContact] = useState({
-    name: '',
-    number: '',
-  });
   const handleSubmit = event => {
     event.preventDefault();
-    // console.log(contact);
-    const form = event.target;
-    form.reset();
 
-    dispatch(addContact(contact.name, contact.number));
+    let newContactAdded = contacts.find(
+      contact => contact.name.toLowerCase() === name.toLowerCase()
+    );
+    if (newContactAdded) {
+      alert(`already in contacts`);
+      return contacts;
+    } else {
+      dispatch(addContact(name, number));
+      setName('');
+      setNumber('');
+    }
   };
 
-  const handleInput = event => {
-    setContact(prevState => ({
-      ...prevState,
-      [event.target.name]: event.target.value,
-    }));
-    // console.log(event);
-  };
   return (
-    <form onSubmit={handleSubmit}>
+    <form className={css.form} onSubmit={handleSubmit}>
+      <label>Name</label>
       <input
+        id="1"
         type="text"
         name="name"
+        pattern="^[a-zA-Zа-яА-Я]+((['\-][a-zA-Zа-яА-Я ])?[a-zA-Zа-яА-Я]*)*$"
+        required
+        value={name.trim()}
         placeholder="Name"
-        // value={contact}
-        onChange={handleInput}
+        onChange={handleChange}
       />
+      <label>Number</label>
       <input
-        type="number"
+        id="2"
+        type="tel"
         name="number"
-        placeholder="number"
-        // value={contact}
-        onChange={handleInput}
+        pattern="\+?\d{1,4}?[\-.\s]?\(?\d{1,3}?\)?[\-.\s]?\d{1,4}[\-.\s]?\d{1,4}[\-.\s]?\d{1,9}"
+        required
+        value={number.trim()}
+        placeholder="Number"
+        onChange={handleChange}
       />
-      <button type="submit"> Add contacts </button>
+      <button type="submit">Add contact</button>
     </form>
   );
 };
+
+export default ContactForm;
